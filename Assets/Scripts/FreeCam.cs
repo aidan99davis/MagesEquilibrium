@@ -45,6 +45,13 @@ public class FreeCam : MonoBehaviour
     /// </summary>
     private bool looking;
 
+    private Rigidbody playerRigidbody;
+
+    private void Start()
+    {
+        playerRigidbody = gameObject.GetComponentInParent(typeof(Rigidbody)) as Rigidbody;
+    }
+
     void Update()
     {
         var fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
@@ -52,48 +59,48 @@ public class FreeCam : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position = transform.position + (-transform.right * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (-playerRigidbody.transform.right * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position = transform.position + (transform.right * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (playerRigidbody.transform.right * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            transform.position = transform.position + (transform.forward * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (playerRigidbody.transform.forward * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position = transform.position + (-transform.forward * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (-playerRigidbody.transform.forward * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.Q))
         {
-            transform.position = transform.position + (transform.up * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (playerRigidbody.transform.up * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.E))
         {
-            transform.position = transform.position + (-transform.up * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (-playerRigidbody.transform.up * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
         {
-            transform.position = transform.position + (Vector3.up * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (Vector3.up * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
         {
-            transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
+            playerRigidbody.position = playerRigidbody.position + (-Vector3.up * movementSpeed * Time.deltaTime);
         }
 
         if (looking)
         {
-            float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
-            float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
+            float newRotationX = playerRigidbody.transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
+            float newRotationY = playerRigidbody.transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
             transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
         }
 
@@ -101,7 +108,7 @@ public class FreeCam : MonoBehaviour
         if (axis != 0)
         {
             var zoomSensitivity = fastMode ? fastZoomSensitivity : this.zoomSensitivity;
-            transform.position = transform.position + transform.forward * axis * zoomSensitivity;
+            playerRigidbody.transform.position = playerRigidbody.transform.position + playerRigidbody.transform.forward * axis * zoomSensitivity;
         }
 
         StartLooking();
