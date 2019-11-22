@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TerrainEditor : MonoBehaviour
 {
@@ -19,11 +20,11 @@ public class TerrainEditor : MonoBehaviour
     {
         _initChunks = new Chunk[8];
         Cursor.lockState = CursorLockMode.Locked;
+        StartCoroutine("Tick");
     }
 
     private void Update()
     {
-        TryEditTerrain();
     }
 
     private void TryEditTerrain()
@@ -41,6 +42,16 @@ public class TerrainEditor : MonoBehaviour
         {
             RaycastToTerrain(!addTerrain);
         }
+    }
+
+    IEnumerator Tick()
+    {
+        for (;;)
+        {
+            TryEditTerrain();
+            yield return null;
+        }
+
     }
 
     private void RaycastToTerrain(bool addTerrain)

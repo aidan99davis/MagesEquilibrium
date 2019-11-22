@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -57,6 +58,7 @@ public class World : MonoBehaviour
     private void Start()
     {
         Initialise();
+        StartCoroutine("Reload");
     }
 
     public void CreateChunks()
@@ -216,7 +218,18 @@ public class World : MonoBehaviour
 
     }
 
-    private void CheckChunks()
+    IEnumerator Reload()
+    {
+
+
+        for (; ; )
+        {
+            CheckChunks();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    public void CheckChunks()
     {
         LoadChunks();
         List<Chunk> chunkList = new List<Chunk>(chunks.Values);

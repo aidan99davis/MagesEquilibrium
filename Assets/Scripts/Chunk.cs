@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
@@ -23,15 +24,28 @@ public class Chunk : MonoBehaviour
     private void Start()
     {
         Generate();
+        StartCoroutine("GenerateMesh");
+    }
+
+    IEnumerator GenerateMesh()
+    {
+        for (;;)
+        {
+
+            if (readyForUpdate)
+            {
+                Generate();
+                readyForUpdate = false;
+            }
+
+            yield return null;
+        }
+
     }
 
     private void Update()
     {
-        if (readyForUpdate)
-        {
-            Generate();
-            readyForUpdate = false;
-        }
+        
     }
 
     public void Initialize(World world, int chunkSize, Vector3Int position)
